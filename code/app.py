@@ -28,9 +28,13 @@ class Store(Resource):
             return {"message": f"A store with name '{name}' already exists"}, 400
 
         data = request.get_json()
-        store = {"name": name, "city": data["city"]}
+        store = {"name": name, "feature1": data["feature1"]}
         stores.append(store)
         return store, 201
+
+    def delete(self, name):
+        global stores
+        stores = list(filter(lambda x: x["name"] != name, stores))
 
 
 class StoreList(Resource):
