@@ -2,9 +2,9 @@ from flask import Flask
 from flask_jwt import JWT
 from flask_restful import Api
 
-from user import UserRegister
-from store import Store, StoreList
 from security import authenticate, identity
+from resources.user import UserRegister
+from resources.store import Store, StoreList
 import credentials
 
 app = Flask(__name__)

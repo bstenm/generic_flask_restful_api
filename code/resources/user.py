@@ -1,36 +1,6 @@
 import sqlite3
+from models.user import UserModel
 from flask_restful import Resource, reqparse
-
-
-class User:
-    def __init__(self, _id, username, password):
-        self.id = _id
-        self.password = password
-        self.username = username
-
-    @classmethod
-    def find_by_username(cls, username):
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-        # execute query passing a tuple
-        query = "SELECT * from users where username=?"
-        cursor.execute(query, (username,))
-        row = cursor.fetchone()
-        connection.close()
-
-        return cls(*row) if row else None
-
-    @classmethod
-    def find_by_id(cls, _id):
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-        # execute query passing a tuple
-        query = "SELECT * from users where id=?"
-        cursor.execute(query, (_id,))
-        row = cursor.fetchone()
-        connection.close()
-
-        return cls(*row) if row else None
 
 
 class UserRegister(Resource):
@@ -52,7 +22,7 @@ class UserRegister(Resource):
         password = data['password']
         username = data['username']
 
-        if User.find_by_username(username):
+        if UserModel.find_by_username(username):
             return {'message': 'A user with that username already exists'}, 400
 
         connection = sqlite3.connect('data.db')
